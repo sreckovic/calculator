@@ -34,59 +34,60 @@ body {
   max-width: 500px;
   font-size: 3em;
   font-family: 'Helvetica Neue';
-  font-weight: 300;
+  font-weight: 400;
 
   border-top: 1px solid #8e8e8e;
   border-left: 1px solid #8e8e8e;
 
   @include clearfix();
-}
 
-.display {
-  background-color: #999;
-}
+  .display, .sidebar span, .keypad span {
+    border-bottom: 1px solid #8e8e8e;
+    border-right: 1px solid #8e8e8e;
+  }
 
-.display, .sidebar span, .keypad span {
-  border-bottom: 1px solid #8e8e8e;
-  border-right: 1px solid #8e8e8e;
-}
+  .display {
+    background-color: #999;
+    font-size: 1.6em;
+    text-align: right;
+    padding: 2rem 3rem;
+    color: #fff;
+    font-weight: 300;
+  }
 
-.display {
-  text-align: right;
-  padding: 3rem;
-}
-
-.keypad {
-  width: 75%;
-  float: left;
-}
-
-.sidebar, .keypad {
-  span {
+  .keypad {
+    width: 75%;
     float: left;
-    width: 33.333%;
-    text-align: center;
-    padding: 2rem;
-    cursor: pointer;
+  }
 
-    &.zero {
-      width: 66.666%;
-      text-align: left;
-      padding: 2rem 3rem;
-    }
+  .sidebar, .keypad {
+    span {
+      float: left;
+      width: 33.333%;
+      text-align: center;
+      padding: 2rem;
+      cursor: pointer;
 
-    &.clear-all, &.negate, &.percent {
-      background-color: #d6d6d6;
+      &.zero {
+        width: 66.666%;
+        text-align: left;
+        padding: 2rem 3rem;
+      }
+
+      &.clear-all, &.negate, &.percent {
+        background-color: #d6d6d6;
+      }
     }
   }
-}
 
-.sidebar {
-  background-color: #f69331;
-  width: 25%;
-  float: right;
+  .sidebar {
+    background-color: #f69331;
+    width: 25%;
+    float: right;
+    color: #fff;
 
-  span {
-    width: 100%;
+    span {
+      width: 100%;
+    }
   }
 }
