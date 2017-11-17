@@ -1,0 +1,51 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.calculator {
+  background-color: #e0e0e0;
+  border-top: 1px solid #686868;
+  border-left: 1px solid #686868;
+  max-width: 500px;
+  font-size: 3em;
+  font-family: 'Helvetica Neue';
+  font-weight: 300;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  background-clip: padding-box;
+  /* stops bg color from leaking outside the border: */ }
+  .calculator:before, .calculator:after {
+    content: "";
+    display: table; }
+  .calculator:after {
+    clear: both; }
+
+.display {
+  text-align: right;
+  padding: 3rem;
+  border-bottom: 1px solid #8e8e8e;
+  border-right: 1px solid #8e8e8e; }
+
+.sidebar span, .keypad span {
+  float: left;
+  width: 33.333%;
+  text-align: center;
+  padding: 2rem;
+  cursor: pointer;
+  border-bottom: 1px solid #8e8e8e;
+  border-right: 1px solid #8e8e8e; }
+  .sidebar span.zero, .keypad span.zero {
+    width: 66.666%; }
+
+.keypad {
+  width: 75%;
+  float: left; }
+
+.sidebar {
+  width: 25%;
+  float: right; }
+  .sidebar span {
+    width: 100%; }
+
+/*# sourceMappingURL=style.css.map */
