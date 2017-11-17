@@ -25,25 +25,40 @@
   @include box-sizing(border-box);
 }
 
+body {
+  margin: 2rem;
+}
+
 .calculator {
   background-color: #e0e0e0;
-  border-top: 1px solid #686868;
-  border-left: 1px solid #686868;
   max-width: 500px;
   font-size: 3em;
   font-family: 'Helvetica Neue';
   font-weight: 300;
 
-  @include border-radius(5px);
+  border-top: 1px solid #8e8e8e;
+  border-left: 1px solid #8e8e8e;
+
   @include clearfix();
+}
+
+.display {
+  background-color: #999;
+}
+
+.display, .sidebar span, .keypad span {
+  border-bottom: 1px solid #8e8e8e;
+  border-right: 1px solid #8e8e8e;
 }
 
 .display {
   text-align: right;
   padding: 3rem;
+}
 
-  border-bottom: 1px solid #8e8e8e;
-  border-right: 1px solid #8e8e8e;
+.keypad {
+  width: 75%;
+  float: left;
 }
 
 .sidebar, .keypad {
@@ -53,21 +68,21 @@
     text-align: center;
     padding: 2rem;
     cursor: pointer;
-    border-bottom: 1px solid #8e8e8e;
-    border-right: 1px solid #8e8e8e;
 
     &.zero {
       width: 66.666%;
+      text-align: left;
+      padding: 2rem 3rem;
+    }
+
+    &.clear-all, &.negate, &.percent {
+      background-color: #d6d6d6;
     }
   }
 }
 
-.keypad {
-  width: 75%;
-  float: left;
-}
-
 .sidebar {
+  background-color: #f69331;
   width: 25%;
   float: right;
 
