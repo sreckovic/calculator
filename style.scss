@@ -15,6 +15,13 @@
   }
 }
 
+@mixin transition($type, $speed) {
+  -webkit-transition: $type $speed ease-in-out;
+  -moz-transition: $type $speed ease-in-out;
+  -o-transition: $type $speed ease-in-out;
+  transition: $type $speed ease-in-out;
+}
+
 @mixin box-sizing($box-model) {
   -webkit-box-sizing: $box-model; // Safari <= 5
   -moz-box-sizing: $box-model; // Firefox <= 19
@@ -74,6 +81,8 @@ body {
       padding: 2rem;
       cursor: pointer;
 
+      @include transition(all, 0.2s);
+
       &.zero {
         width: 66.666%;
         text-align: left;
@@ -94,6 +103,11 @@ body {
 
     span {
       width: 100%;
+
+      &:hover {
+        color: #8e8e8e;
+        background-color: #d58230;
+      }
     }
   }
 }
