@@ -1,6 +1,6 @@
 
 // Calculator Controller
-var CalController = (function(){
+var CalcController = (function(){
 
   var calculate = function() {
 
@@ -14,16 +14,24 @@ var CalController = (function(){
 
 })();
 
+var UIController = (function(){
+
+  var DOMStrings = {
+    displayLabel: '.display',
+  };
+
+})();
+
 // Global App Controller
-var controller = (function(CalCtrl){
+var controller = (function(CalcCtrl, UICtrl){
 
   return {
     init: function() {
       console.log('Application has started.');
-      CalCtrl.calculate();
+      CalcCtrl.calculate();
     }
   }
   
-})(CalController);
+})(CalcController, UIController);
 
 controller.init();

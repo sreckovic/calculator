@@ -32,6 +32,8 @@ body {
   .calculator .keypad {
     width: 75%;
     float: left; }
+    .calculator .keypad span:hover {
+      background-color: #999; }
   .calculator .sidebar span, .calculator .keypad span {
     float: left;
     width: 33.333%;
