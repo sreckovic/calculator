@@ -16,18 +16,21 @@ var CalcController = (function(){
       console.log(keypadValue)
       data['previousValue'] = data['currentValue'];
 
-      // Check if currentValue is 0 & keypadValue is .
+      // Check if currentValue is 0 & keypadValue is dot, we want to type 0.23 for example
       if ( data['currentValue'] === '0' && keypadValue === '.' ) {
         // Assign keypadValue to currentValue
         data['currentValue'] = data['currentValue'] + keypadValue;
+
+        // Check if currentValue is 0, if this is try we want to type a number, we are not starting with dot
       } else if ( data['currentValue'] === '0' ) {
         data['currentValue'] = keypadValue;
+
       } else {
-        // Does previousValue have . if not
+        // Does previousValue have dot if not
         if ( data['previousValue'].indexOf('.') == -1 ) {
           data['currentValue'] = data['currentValue'] + keypadValue;
 
-          // Does keypadValue have .
+          // Does keypadValue have dot?
         } else if ( keypadValue !== '.' ) {
           data['currentValue'] = data['currentValue'] + keypadValue;
         }

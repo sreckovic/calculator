@@ -1,2 +1,2 @@
-# Calculator
-JavaScript Practice
+# macOS Calculator
+macOS Calculator, JavaScript practice
