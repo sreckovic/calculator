@@ -3,7 +3,8 @@ var CalcController = (function(){
 
   var data = {
     currentValue: '0',
-    previousValue: '0'
+    previousValue: '0',
+    currentFunc: ''
   }
 
   var calculate = function() {
@@ -14,17 +15,17 @@ var CalcController = (function(){
     store: function(keypadValue) {
       data['previousValue'] = data['currentValue'];
 
-      // Check if my current state is starting 0
+      // Check if currentValue is 0
       if ( data['currentValue'] === '0' ) {
-        // Just assign keypadValue as current value
+        // Assign keypadValue to currentValue
         data['currentValue'] = keypadValue;
       } else {
 
-        // Check if we already used .
+        // Does previousValue have '.' if not
         if ( data['previousValue'].indexOf('.') == -1 ) {
           data['currentValue'] = data['currentValue'] + keypadValue;
 
-          // Check if we use . again
+          // Does keypadValue have '.'
         } else if ( keypadValue !== '.' ) {
           data['currentValue'] = data['currentValue'] + keypadValue;
         }
@@ -65,8 +66,8 @@ var UIController = (function(){
     },
 
     // Get value of clicked keypad 0 - 9 plus . sign
-    getKeypadValue: function(keypad) {
-      return keypad.target.innerText
+    getKeypadValue: function(keypadValue) {
+      return keypadValue.target.innerText
     },
 
     getDOMstrings: function() {
@@ -104,7 +105,7 @@ var controller = (function(CalcCtrl, UICtrl){
   var ctrlUpdateDisplay = function(event) {
     var keypadValue, displayValue;
 
-    // 1. Get keypad value
+    // 1. Get keypadValue
     keypadValue = UICtrl.getKeypadValue(event);
     //console.log(keypadValue);
 
