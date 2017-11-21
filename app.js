@@ -41,7 +41,7 @@ var CalcController = (function(){
       return data['currentValue'];
     },
 
-    testing: function() {
+    test: function() {
       console.log(data);
     }
   }
@@ -91,27 +91,28 @@ var UIController = (function(){
 var controller = (function(CalcCtrl, UICtrl){
 
   var setupEventListeners = function() {
-    var DOM = UICtrl.getDOMstrings();
-    var keypads = document.querySelectorAll(DOM.keypad)
+    var DOM, keypads;
     
-    document.querySelector(DOM.clear).addEventListener('click', ctrlClearDisplay);
+    DOM = UICtrl.getDOMstrings();
+    keypads = document.querySelectorAll(DOM.keypad)
+    
+    document.querySelector(DOM.clear).addEventListener('click', ctrlClear);
 
     UICtrl.nodeListForEach(keypads, function(current) {
-      current.addEventListener('click', ctrlUpdateDisplay);
+      current.addEventListener('click', ctrlUpdate);
     });
 
   };
 
-  var ctrlClearDisplay = function() {
+  var ctrlClear = function() {
     // 1.
   }
 
-  var ctrlUpdateDisplay = function(event) {
+  var ctrlUpdate = function(event) {
     var keypadValue, displayValue;
 
     // 1. Get keypadValue
     keypadValue = UICtrl.getKeypadValue(event);
-    //console.log(keypadValue);
 
     // 2. Store previous value
     CalcCtrl.store(keypadValue);
