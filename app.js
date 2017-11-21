@@ -13,23 +13,24 @@ var CalcController = (function(){
 
   return {
     store: function(keypadValue) {
+      console.log(keypadValue)
       data['previousValue'] = data['currentValue'];
 
-      // Check if currentValue is 0
-      if ( data['currentValue'] === '0' ) {
+      // Check if currentValue is 0 & keypadValue is .
+      if ( data['currentValue'] === '0' && keypadValue === '.' ) {
         // Assign keypadValue to currentValue
+        data['currentValue'] = data['currentValue'] + keypadValue;
+      } else if ( data['currentValue'] === '0' ) {
         data['currentValue'] = keypadValue;
       } else {
-
-        // Does previousValue have '.' if not
+        // Does previousValue have . if not
         if ( data['previousValue'].indexOf('.') == -1 ) {
           data['currentValue'] = data['currentValue'] + keypadValue;
 
-          // Does keypadValue have '.'
+          // Does keypadValue have .
         } else if ( keypadValue !== '.' ) {
           data['currentValue'] = data['currentValue'] + keypadValue;
         }
-
       }
     },
 
@@ -61,8 +62,8 @@ var UIController = (function(){
   };
 
   return {
-    updateDisplayLabel: function(value) {
-      document.querySelector(DOMStrings.displayLabel).textContent = value;
+    updateDisplayLabel: function(val) {
+      document.querySelector(DOMStrings.displayLabel).textContent = val;
     },
 
     // Get value of clicked keypad 0 - 9 plus . sign
