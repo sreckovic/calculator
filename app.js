@@ -69,6 +69,10 @@ var UIController = (function(){
       document.querySelector(DOMStrings.displayLabel).textContent = val;
     },
 
+    clearDisplayLabel: function() {
+      document.querySelector(DOMStrings.displayLabel).textContent = '0';
+    },
+
     // Get value of clicked keypad 0 - 9 plus . sign
     getKeypadValue: function(keypadValue) {
       return keypadValue.target.innerText
@@ -105,7 +109,8 @@ var controller = (function(CalcCtrl, UICtrl){
   };
 
   var ctrlClear = function() {
-    // 1.
+    // 1. Clear display
+    UICtrl.clearDisplayLabel();
   }
 
   var ctrlUpdate = function(event) {
