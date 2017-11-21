@@ -1,13 +1,43 @@
 // Calculator Controller
 var CalcController = (function(){
 
+  var data = {
+    currentValue: '0',
+    previousValue: '0'
+  }
+
   var calculate = function() {
 
   }
 
   return {
+    store: function(keypadValue) {
+      data['previousValue'] = data['currentValue'];
+
+      // Check if my current state is starting 0
+      if ( data['currentValue'] === '0' ) {
+        // Just assign keypadValue as current value
+        data['currentValue'] = keypadValue;
+      } else {
+
+        // Check if we already used .
+        if ( data['previousValue'].indexOf('.') == -1 ) {
+          data['currentValue'] = data['currentValue'] + keypadValue;
+
+          // Check if we use . again
+        } else if ( keypadValue !== '.' ) {
+          data['currentValue'] = data['currentValue'] + keypadValue;
+        }
+
+      }
+    },
+
     calculate: function() {
-  
+      return data['currentValue'];
+    },
+
+    testing: function() {
+      console.log(data);
     }
   }
 
@@ -30,20 +60,13 @@ var UIController = (function(){
   };
 
   return {
-    updateDisplayLabel: function() {
-      
+    updateDisplayLabel: function(value) {
+      document.querySelector(DOMStrings.displayLabel).textContent = value;
     },
 
-    getDisplayValue: function() {
-      return {
-        value: document.querySelector(DOMStrings.displayLabel).textContent
-      };
-    },
-
+    // Get value of clicked keypad 0 - 9 plus . sign
     getKeypadValue: function(keypad) {
-      return {
-        value: keypad.target.innerText
-      }
+      return keypad.target.innerText
     },
 
     getDOMstrings: function() {
@@ -75,23 +98,24 @@ var controller = (function(CalcCtrl, UICtrl){
   };
 
   var ctrlClearDisplay = function() {
-    // 1. Get the display current stored value
-    input = UICtrl.getDisplayValue();
-
-    console.log(input)
+    // 1.
   }
 
   var ctrlUpdateDisplay = function(event) {
+    var keypadValue, displayValue;
 
     // 1. Get keypad value
-    var value = UICtrl.getKeypadValue(event);
-    console.log(value);
+    keypadValue = UICtrl.getKeypadValue(event);
+    //console.log(keypadValue);
 
-    // 2. Calculate new store value
+    // 2. Store previous value
+    CalcCtrl.store(keypadValue);
 
+    // 2. Calculate new value
+    displayValue = CalcCtrl.calculate();
 
     // 3. Display new displayLabel value
-    UICtrl.updateDisplayLabel();
+    UICtrl.updateDisplayLabel(displayValue);
 
   }
 
@@ -99,7 +123,6 @@ var controller = (function(CalcCtrl, UICtrl){
     init: function() {
       console.log('Application has started.');
       setupEventListeners();
-      //CalcCtrl.calculate();
     }
   }
   
