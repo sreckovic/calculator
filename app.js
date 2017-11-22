@@ -12,7 +12,7 @@ var CalcController = (function(){
   }
 
   return {
-    store: function(keypadValue) {
+    storeKeypadValue: function(keypadValue) {
       //console.log(keypadValue)
 
       data['previousValue'] = data['currentValue'];
@@ -36,6 +36,11 @@ var CalcController = (function(){
           data['currentValue'] = data['currentValue'] + keypadValue;
         }
       }
+    },
+
+    storeOperation: function(operationValue) {
+      data['currentFunc'] = operationValue
+      console.log(data['currentFunc']);
     },
 
     clear: function() {
@@ -89,6 +94,10 @@ var UIController = (function(){
       return keypadValue.target.innerText
     },
 
+    getOperationValue: function(operationValue) {
+      return operationValue.target.className;
+    },
+
     getDOMstrings: function() {
       return DOMStrings;
     },
@@ -107,14 +116,12 @@ var controller = (function(CalcCtrl, UICtrl){
 
   var setupEventListeners = function() {
     var DOM, keypads, sidebar;
-    
+
     DOM = UICtrl.getDOMstrings();
     keypads = document.querySelectorAll(DOM.keypad);
     sidebar = document.querySelectorAll(DOM.sidebar);
-    
-    document.querySelector(DOM.clear).addEventListener('click', ctrlClear);
 
-    //document.querySelector(DOM.add).addEventListener('click', ctrlOperation);
+    document.querySelector(DOM.clear).addEventListener('click', ctrlClear);
 
     // Add Event Listener to all keypadas 0 - 9 and dot
     UICtrl.nodeListForEach(keypads, function(current) {
@@ -126,7 +133,7 @@ var controller = (function(CalcCtrl, UICtrl){
       current.addEventListener('click', ctrlOperation);
     });
 
-    
+    // Add Event Listener to operations inside keypad
 
   };
 
@@ -148,7 +155,7 @@ var controller = (function(CalcCtrl, UICtrl){
     UICtrl.updateClearAllLabel();
 
     // 3. Store previous value
-    CalcCtrl.store(keypadValue);
+    CalcCtrl.storeKeypadValue(keypadValue);
 
     // 4. Calculate new value
     displayValue = CalcCtrl.calculate();
@@ -159,7 +166,12 @@ var controller = (function(CalcCtrl, UICtrl){
   }
 
   var ctrlOperation = function(event) {
-    console.log('Operation: ' + event.target.className);
+
+    // 1. Get operationValue
+    operationValue = UICtrl.getOperationValue(event);
+    
+    // 2.
+    CalcCtrl.storeOperation(operationValue);
   }
 
   return {
