@@ -67,7 +67,8 @@ var UIController = (function(){
     substract: '.substract',
     add: '.add',
     equal: '.equal',
-    keypad: '.keypad span:not(.clear-all):not(.negate):not(.percent)'
+    keypad: '.keypad span:not(.clear-all):not(.negate):not(.percent)',
+    sidebar: '.sidebar span'
   };
 
   return {
@@ -105,18 +106,27 @@ var UIController = (function(){
 var controller = (function(CalcCtrl, UICtrl){
 
   var setupEventListeners = function() {
-    var DOM, keypads;
+    var DOM, keypads, sidebar;
     
     DOM = UICtrl.getDOMstrings();
-    keypads = document.querySelectorAll(DOM.keypad)
+    keypads = document.querySelectorAll(DOM.keypad);
+    sidebar = document.querySelectorAll(DOM.sidebar);
     
     document.querySelector(DOM.clear).addEventListener('click', ctrlClear);
 
-    document.querySelector(DOM.add).addEventListener('click', ctrlOperation);
+    //document.querySelector(DOM.add).addEventListener('click', ctrlOperation);
 
+    // Add Event Listener to all keypadas 0 - 9 and dot
     UICtrl.nodeListForEach(keypads, function(current) {
       current.addEventListener('click', ctrlUpdate);
     });
+
+    // Add Event Listener to all operations in sidebar
+    UICtrl.nodeListForEach(sidebar, function(current) {
+      current.addEventListener('click', ctrlOperation);
+    });
+
+    
 
   };
 
@@ -148,8 +158,8 @@ var controller = (function(CalcCtrl, UICtrl){
 
   }
 
-  var ctrlOperation = function() {
-    console.log('add');
+  var ctrlOperation = function(event) {
+    console.log('Operation: ' + event.target.className);
   }
 
   return {
