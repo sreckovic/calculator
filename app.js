@@ -13,7 +13,8 @@ var CalcController = (function(){
 
   return {
     store: function(keypadValue) {
-      console.log(keypadValue)
+      //console.log(keypadValue)
+
       data['previousValue'] = data['currentValue'];
 
       // Check if currentValue is 0 & keypadValue is dot, we want to type 0.23 for example
@@ -37,7 +38,12 @@ var CalcController = (function(){
       }
     },
 
-    calculate: function() {
+    clear: function() {
+      data['previousValue'] = data['currentValue'];
+      data['currentValue'] = '0';
+    },
+
+    calculate: function(operation) {
       return data['currentValue'];
     },
 
@@ -67,6 +73,10 @@ var UIController = (function(){
   return {
     updateDisplayLabel: function(val) {
       document.querySelector(DOMStrings.displayLabel).textContent = val;
+    },
+
+    updateClearAllLabel: function() {
+      document.querySelector(DOMStrings.clear).textContent = 'C';
     },
 
     clearDisplayLabel: function() {
@@ -102,6 +112,8 @@ var controller = (function(CalcCtrl, UICtrl){
     
     document.querySelector(DOM.clear).addEventListener('click', ctrlClear);
 
+    document.querySelector(DOM.add).addEventListener('click', ctrlOperation);
+
     UICtrl.nodeListForEach(keypads, function(current) {
       current.addEventListener('click', ctrlUpdate);
     });
@@ -109,7 +121,10 @@ var controller = (function(CalcCtrl, UICtrl){
   };
 
   var ctrlClear = function() {
-    // 1. Clear display
+    // 1. Save current state
+    CalcCtrl.clear();
+
+    // 2. Clear display
     UICtrl.clearDisplayLabel();
   }
 
@@ -119,15 +134,22 @@ var controller = (function(CalcCtrl, UICtrl){
     // 1. Get keypadValue
     keypadValue = UICtrl.getKeypadValue(event);
 
-    // 2. Store previous value
+    // 2. Update clear label from AC to C
+    UICtrl.updateClearAllLabel();
+
+    // 3. Store previous value
     CalcCtrl.store(keypadValue);
 
-    // 2. Calculate new value
+    // 4. Calculate new value
     displayValue = CalcCtrl.calculate();
 
-    // 3. Display new displayLabel value
+    // 5. Display new displayLabel value
     UICtrl.updateDisplayLabel(displayValue);
 
+  }
+
+  var ctrlOperation = function() {
+    console.log('add');
   }
 
   return {
