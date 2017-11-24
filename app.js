@@ -5,51 +5,50 @@ var CalcController = (function(){
     currentValue: '0',
     previousValue: '0',
     currentFunc: ''
-  }
+  };
 
   var calculate = function() {
 
-  }
+  };
 
   return {
     storeKeypadValue: function(keypadValue) {
-      //console.log(keypadValue)
 
-      data['previousValue'] = data['currentValue'];
+      data.previousValue = data.currentValue;
 
       // Check if currentValue is 0 & keypadValue is dot, we want to type 0.23 for example
-      if ( data['currentValue'] === '0' && keypadValue === '.' ) {
+      if ( data.currentValue === '0' && keypadValue === '.' ) {
         // Assign keypadValue to currentValue
-        data['currentValue'] = data['currentValue'] + keypadValue;
+        data.currentValue = data.currentValue + keypadValue;
 
         // Check if currentValue is 0, if this is try we want to type a number, we are not starting with dot
-      } else if ( data['currentValue'] === '0' ) {
-        data['currentValue'] = keypadValue;
+      } else if ( data.currentValue === '0' ) {
+        data.currentValue = keypadValue;
 
       } else {
         // Does previousValue have dot if not
-        if ( data['previousValue'].indexOf('.') == -1 ) {
-          data['currentValue'] = data['currentValue'] + keypadValue;
+        if ( data.previousValue.indexOf('.') == -1 ) {
+          data.currentValue = data.currentValue + keypadValue;
 
           // Does keypadValue have dot?
         } else if ( keypadValue !== '.' ) {
-          data['currentValue'] = data['currentValue'] + keypadValue;
+          data.currentValue = data.currentValue + keypadValue;
         }
       }
     },
 
     storeOperation: function(operationValue) {
-      data['currentFunc'] = operationValue
-      console.log(data['currentFunc']);
+      data.currentFunc = operationValue;
+      console.log(data.currentFunc);
     },
 
-    clear: function() {
-      data['previousValue'] = data['currentValue'];
-      data['currentValue'] = '0';
+    clear: function(type) {
+      data.previousValue = data.currentValue;
+      data.currentValue = '0';
     },
 
     calculate: function(operation) {
-      return data['currentValue'];
+      return data.currentValue;
     },
 
     test: function() {
@@ -66,12 +65,6 @@ var UIController = (function(){
     clear: '.clear-all',
     negate: '.negate',
     percent: '.percent',
-    inputZero: '.zero',
-    divide: '.divide',
-    multiply: '.multiply',
-    substract: '.substract',
-    add: '.add',
-    equal: '.equal',
     keypad: '.keypad span:not(.clear-all):not(.negate):not(.percent)',
     sidebar: '.sidebar span'
   };
@@ -81,7 +74,7 @@ var UIController = (function(){
       document.querySelector(DOMStrings.displayLabel).textContent = val;
     },
 
-    updateClearAllLabel: function() {
+    updateClearLabel: function() {
       document.querySelector(DOMStrings.clear).textContent = 'C';
     },
 
@@ -124,20 +117,23 @@ var controller = (function(CalcCtrl, UICtrl){
     document.querySelector(DOM.clear).addEventListener('click', ctrlClear);
 
     // Add Event Listener to all keypadas 0 - 9 and dot
-    UICtrl.nodeListForEach(keypads, function(current) {
-      current.addEventListener('click', ctrlUpdate);
+    UICtrl.nodeListForEach(keypads, function(cur) {
+      cur.addEventListener('click', ctrlKeypad);
     });
 
     // Add Event Listener to all operations in sidebar
-    UICtrl.nodeListForEach(sidebar, function(current) {
-      current.addEventListener('click', ctrlOperation);
+    UICtrl.nodeListForEach(sidebar, function(cur) {
+      cur.addEventListener('click', ctrlOperation);
     });
 
     // Add Event Listener to operations inside keypad
 
   };
 
-  var ctrlClear = function() {
+  var ctrlClear = function(event) {
+    // 1. Get operationValue
+    //operationValue = UICtrl.getOperationValue(event);
+
     // 1. Save current state
     CalcCtrl.clear();
 
@@ -145,14 +141,14 @@ var controller = (function(CalcCtrl, UICtrl){
     UICtrl.clearDisplayLabel();
   }
 
-  var ctrlUpdate = function(event) {
+  var ctrlKeypad = function(event) {
     var keypadValue, displayValue;
 
     // 1. Get keypadValue
     keypadValue = UICtrl.getKeypadValue(event);
 
     // 2. Update clear label from AC to C
-    UICtrl.updateClearAllLabel();
+    UICtrl.updateClearLabel();
 
     // 3. Store previous value
     CalcCtrl.storeKeypadValue(keypadValue);
@@ -162,15 +158,13 @@ var controller = (function(CalcCtrl, UICtrl){
 
     // 5. Display new displayLabel value
     UICtrl.updateDisplayLabel(displayValue);
-
   }
 
   var ctrlOperation = function(event) {
-
     // 1. Get operationValue
     operationValue = UICtrl.getOperationValue(event);
-    
-    // 2.
+
+    // 2. Store current operation
     CalcCtrl.storeOperation(operationValue);
   }
 
@@ -180,7 +174,7 @@ var controller = (function(CalcCtrl, UICtrl){
       setupEventListeners();
     }
   }
-  
+
 })(CalcController, UIController);
 
 controller.init();
