@@ -42,13 +42,25 @@ var CalcController = (function(){
       console.log(data.currentFunc);
     },
 
-    clear: function(type) {
-      data.previousValue = data.currentValue;
-      data.currentValue = '0';
+    clear: function(type, currentFunc) {
+      //data.previousValue = data.currentValue;
+
+      console.log(currentFunc);
+
+      if(currentFunc === '') {
+        data.currentValue = '0';
+        data.previousValue = '0';
+      } else {
+        data.currentValue = '0';
+      }
     },
 
     calculate: function(operation) {
       return data.currentValue;
+    },
+
+    getData: function() {
+      return data;
     },
 
     test: function() {
@@ -74,8 +86,14 @@ var UIController = (function(){
       document.querySelector(DOMStrings.displayLabel).textContent = val;
     },
 
-    updateClearLabel: function() {
-      document.querySelector(DOMStrings.clear).textContent = 'C';
+    updateClearLabel: function(type) {
+      //console.log(type);
+
+      if (type === 'C') {
+        document.querySelector(DOMStrings.clear).textContent = 'AC';
+      } else {
+        document.querySelector(DOMStrings.clear).textContent = 'C';
+      }
     },
 
     clearDisplayLabel: function() {
@@ -131,13 +149,22 @@ var controller = (function(CalcCtrl, UICtrl){
   };
 
   var ctrlClear = function(event) {
-    // 1. Get operationValue
-    //operationValue = UICtrl.getOperationValue(event);
+    var type, currentFunc, data;
 
-    // 1. Save current state
-    CalcCtrl.clear();
+    data = CalcCtrl.getData();
 
-    // 2. Clear display
+    // 1. Get clear type, Clear or Clear All, get current function if any
+    type = event.target.textContent;
+    currentFunc = data.currentFunc;
+    console.log(currentFunc);
+
+    // 2. Update current state depending if its is Clear or Clear All func
+    CalcCtrl.clear(type, currentFunc);
+
+    // 3. Update Clear All label
+    UICtrl.updateClearLabel(type);
+
+    // 4. Clear display
     UICtrl.clearDisplayLabel();
   }
 
@@ -148,7 +175,7 @@ var controller = (function(CalcCtrl, UICtrl){
     keypadValue = UICtrl.getKeypadValue(event);
 
     // 2. Update clear label from AC to C
-    UICtrl.updateClearLabel();
+    UICtrl.updateClearLabel('AC');
 
     // 3. Store previous value
     CalcCtrl.storeKeypadValue(keypadValue);
