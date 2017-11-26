@@ -8,10 +8,6 @@ var CalcController = (function(){
     currentFunc: ''
   };
 
-  var calculate = function() {
-
-  };
-
   return {
     storeKeypadValue: function(keypadValue, curFunc) {
 
@@ -45,10 +41,6 @@ var CalcController = (function(){
     },
 
     clear: function(type, currentFunc) {
-      //data.previousValue = data.currentValue;
-
-      console.log(currentFunc);
-
       if (currentFunc === '') {
         data.currentValue = '0';
         data.previousValue = '0';
@@ -58,7 +50,6 @@ var CalcController = (function(){
     },
 
     calculate: function() {
-      console.log(data.currentFunc);
 
       switch(data.currentFunc) {
         case 'add':
