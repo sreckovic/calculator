@@ -50,6 +50,7 @@ var CalcController = (function(){
     },
 
     calculate: function() {
+      if ( data.total == 0 ) { data.total = parseFloat(data.currentValue); }
 
       switch(data.currentFunc) {
         case 'add':
